@@ -24,3 +24,15 @@ body {
 .dot {
   stroke: #000;
 }
+
+#tooltip {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 10px;
+
+  font-size: 0.7rem;
+}
