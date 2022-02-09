@@ -1,0 +1,26 @@
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+#title,
+#subtitle {
+  text-align: center;
+}
+
+#title {
+  margin-bottom: 0;
+}
+
+#subtitle {
+  margin-top: 0;
+  font-weight: 400;
+}
+
+#graph {
+  display: block;
+  margin: 0 auto;
+}
+
+.dot {
+  stroke: #000;
+}
