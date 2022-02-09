@@ -5,6 +5,7 @@ body {
 #title,
 #subtitle {
   text-align: center;
+  white-space: nowrap;
 }
 
 #title {
@@ -25,6 +26,11 @@ body {
   stroke: #000;
 }
 
+#legend,
+#tooltip {
+  font-size: 0.7rem;
+}
+
 #tooltip {
   position: absolute;
   display: none;
@@ -33,6 +39,4 @@ body {
   border-width: 1px;
   border-radius: 5px;
   padding: 10px;
-
-  font-size: 0.7rem;
 }

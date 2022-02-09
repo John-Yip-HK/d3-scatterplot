@@ -42,12 +42,15 @@ fetch(
       ])
       .range([PADDING, WIDTH - PADDING]);
 
+    // Credit: https://codepen.io/freeCodeCamp/pen/bgpXyK?editors=0010
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
     const xAxis = d3.axisBottom(yearScale);
     const yAxis = d3.axisLeft(minuteScale).tickFormat(d3.timeFormat("%M:%S"));
 
     const tooltip = container.append("div").attr("id", "tooltip");
 
-    function pointerOver(event) {
+    function mouseOver(event) {
       const pointer = d3.pointer(event, d3.select("body").node());
       const circle = d3.select(this);
 
@@ -79,7 +82,7 @@ fetch(
         .html(html);
     }
 
-    function pointerOut() {
+    function mouseOut() {
       tooltip.style("display", "none").text("");
     }
 
@@ -97,12 +100,44 @@ fetch(
       .attr("r", 5)
       .attr("cx", (d) => yearScale(parseYear(d["Year"])))
       .attr("cy", (d) => minuteScale(parseMinutes(d["Time"])))
-      .style("fill", (d) =>
-        d["Doping"].length > 0 ? "rgb(31, 119, 180)" : "orange"
-      )
+      .style("fill", (d) => colorScale(d["Doping"] !== ""))
       .style("fill-opacity", "0.8")
-      .on("mouseover", pointerOver)
-      .on("mouseout", pointerOut);
+      .on("mouseover", mouseOver)
+      .on("mouseout", mouseOut);
+
+    // Credit: https://codepen.io/freeCodeCamp/pen/bgpXyK?editors=0010
+    const legendContainer = svg.append("g").attr("id", "legend");
+
+    const legend = legendContainer
+      .selectAll("#legend")
+      .data(colorScale.domain())
+      .enter()
+      .append("g")
+      .attr("class", "legend-label")
+      .attr("transform", function (d, i) {
+        return "translate(0," + (HEIGHT / 2 - i * 20) + ")";
+      });
+
+    legend
+      .append("rect")
+      .attr("x", WIDTH - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", colorScale);
+
+    legend
+      .append("text")
+      .attr("x", WIDTH - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function (d) {
+        if (d) {
+          return "Riders with doping allegations";
+        } else {
+          return "No doping allegations";
+        }
+      });
 
     svg
       .append("g")
